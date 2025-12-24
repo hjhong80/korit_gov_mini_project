@@ -6,8 +6,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SideBar from '../SideBar/SideBar';
 
-function MainHeader() {
-    const [showSideBar, setShowSideBar] = useState(false);
+function MainHeader({ showSideBar, setShowSideBar }) {
     const navigate = useNavigate();
 
     return (

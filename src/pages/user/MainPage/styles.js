@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-export const container = css`
+export const container = (showSideBar) => css`
     width: 100vw;
     flex-grow: 1;
     background: #eef2ff;
@@ -12,6 +12,8 @@ export const container = css`
     );
     padding: 0 200px;
     box-sizing: border-box;
+    ${showSideBar ? 'filter: blur(4px);' : ''}
+    transition: all 0.2s ease-in-out;
 `;
 
 export const mainContainer = css`
