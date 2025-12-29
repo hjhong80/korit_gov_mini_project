@@ -2,7 +2,7 @@
 import * as s from './styles';
 import { IoMenu } from 'react-icons/io5';
 
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SideBar from '../SideBar/SideBar';
 
@@ -24,7 +24,7 @@ function MainHeader({ showSideBar, setShowSideBar }) {
                 </button>
             </div>
             <div css={s.sideBarContainer(showSideBar)}>
-                <SideBar />
+                <SideBar setShowSideBar={setShowSideBar} />
             </div>
         </div>
     );
