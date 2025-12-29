@@ -2,14 +2,54 @@
 import { IoArrowBack } from 'react-icons/io5';
 import * as s from './styles';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaGoogle } from 'react-icons/fa';
 import { SiNaver } from 'react-icons/si';
 import { FcGoogle } from 'react-icons/fc';
+import { signinRequest } from '../../../apis/auth/authApis';
 
 function SigninPage() {
     const navigate = useNavigate();
+
+    const [signinInputValue, setSigninInputValue] = useState({
+        email: '',
+        password: '',
+    });
+
+    const inputOnChangeHandler = (e) => {
+        const { name, value } = e.target;
+
+        setSigninInputValue((prev) => {
+            return {
+                ...prev,
+                [name]: value,
+            };
+        });
+    };
+
+    const signinOnClickHandler = () => {
+        if (
+            signinInputValue.email.trim().length === 0 ||
+            signinInputValue.password.trim().length === 0
+        ) {
+            alert('모든 항목을 입력해주세요.');
+            return;
+        }
+
+        signinRequest({
+            email: signinInputValue.email,
+            password: signinInputValue.password,
+        }).then((response) => {
+            if (response.data.status === 'success') {
+                localStorage.setItem('AccessToken', response.data.data);
+                window.location.href = '/';
+            } else if (response.data.status === 'failed') {
+                alert(response.data.message);
+                return;
+            }
+        });
+    };
 
     return (
         <div css={s.container}>
@@ -30,20 +70,28 @@ function SigninPage() {
                             <div>
                                 <label htmlFor="email">이메일</label>
                                 <input
+                                    name="email"
                                     id="email"
                                     type="email"
+                                    onChange={inputOnChangeHandler}
+                                    value={signinInputValue.email}
                                     placeholder="이메일을 입력해주세요."
                                 />
                             </div>
                             <div>
                                 <label htmlFor="password">비밀번호</label>
                                 <input
+                                    name="password"
                                     id="password"
                                     type="password"
+                                    onChange={inputOnChangeHandler}
+                                    value={signinInputValue.password}
                                     placeholder="비밀번호를 입력해주세요."
                                 />
                             </div>
-                            <button>로그인</button>
+                            <button onClick={signinOnClickHandler}>
+                                로그인
+                            </button>
                         </div>
                         <div css={s.lineBox}>
                             <span>또는</span>
