@@ -10,6 +10,7 @@ export const container = css`
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #dbdbdb;
+    flex-shrink: 0;
 `;
 
 export const leftBox = css`
@@ -94,4 +95,21 @@ export const sideBarContainer = (showSideBar) => css`
     top: 0;
     transition: all 0.5s ease-in-out;
     left: ${showSideBar ? '0' : '-300px'};
+`;
+
+export const profileBox = css`
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    & > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 `;

@@ -2,11 +2,25 @@
 import { IoArrowBack } from 'react-icons/io5';
 import * as s from './styles';
 
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getBoardByBoardIdRequest } from '../../../apis/board/boardApis';
 
 function BoardDetailPage() {
+    const [boardData, setBoardData] = useState({});
+    const { boardId } = useParams();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        getBoardByBoardIdRequest(boardId).then((response) => {
+            if (response.data.status === 'success') {
+                setBoardData(response.data.data);
+            } else if (response.data.status === 'failed') {
+                alert(response.data.message);
+            }
+        });
+    }, []);
+
     return (
         <div css={s.container}>
             <div css={s.mainContainer}>
@@ -16,27 +30,22 @@ function BoardDetailPage() {
                         목록으로
                     </button>
                 </div>
+
                 <div>
                     <div css={s.topBox}>
-                        <h4>React 18의 새로운 기능들</h4>
+                        <h4>{boardData.title}</h4>
                         <div css={s.boardBottomBox}>
                             <div>
-                                <div>김</div>
-                                <p>김개발</p>
+                                <div css={s.profileImgBox}><img src={boardData.profileImg} alt="" /></div>
+                                <p>{boardData.username}</p>
                             </div>
                             <div>
-                                <p>2025.12.29</p>
+                                <p>{boardData.createDt}</p>
                             </div>
                         </div>
                     </div>
                     <div css={s.bottomBox}>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Quisquam porro expedita nisi eveniet quam
-                            exercitationem velit dignissimos, aspernatur quis
-                            culpa. Laboriosam a natus eum voluptatibus
-                            laudantium. Sunt unde esse dolor!
-                        </p>
+                        <p>{boardData.content}</p>
                     </div>
                 </div>
             </div>

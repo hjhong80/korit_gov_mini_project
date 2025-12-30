@@ -2,12 +2,55 @@
 import { IoArrowBack } from 'react-icons/io5';
 import * as s from './styles';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { LuSearch } from 'react-icons/lu';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+    getBoardByKeywordRequest,
+    getBoardListRequest,
+} from '../../../apis/board/boardApis';
 
 function BoardListPage() {
     const navigate = useNavigate();
+    const [searchInputValue, setSearchInputValue] = useState('');
+    const [boardList, setBoardList] = useState([]);
+
+    useEffect(() => {
+        getBoardListRequest().then((response) => {
+            if (response.data.status === 'success') {
+                setBoardList(response.data.data);
+            } else if (response.data.status === 'failed') {
+                alert(response.data.message);
+            }
+        });
+    }, []);
+
+    const searchOnChangeHandler = (e) => {
+        setSearchInputValue(e.target.value);
+    };
+
+    const searchOnKeyDownHandler = (e) => {
+        if (e.key === 'Enter') {
+            getBoardByKeywordRequest(searchInputValue).then((response) => {
+                if (response.data.status === 'success') {
+                    setBoardList(response.data.data);
+                } else if (response.data.status === 'failed') {
+                    alert(response.data.message);
+                }
+            });
+        }
+    };
+
+    useEffect(() => {
+        getBoardListRequest().then((response) => {
+            if (response.data.status === 'success') {
+                setSearchInputValue(response.data.data);
+            } else if (response.data.status === 'failed') {
+                alert(response.data.message);
+            }
+        });
+    }, []);
+
     return (
         <div css={s.container}>
             <div css={s.mainContainer}>
@@ -21,121 +64,39 @@ function BoardListPage() {
                         <input
                             placeholder="게시물 제목을 검색하세요."
                             type="text"
+                            onChange={searchOnChangeHandler}
+                            onKeyDown={searchOnKeyDownHandler}
                         />
                     </div>
                 </div>
                 <div css={s.listContainer}>
                     <ul>
-                        <li onClick={() => navigate('/board/1')}>
-                            <div>
-                                <h4>React 18의 새로운 기능들</h4>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipisicing elit. Quisquam porro expedita
-                                    nisi eveniet quam exercitationem velit
-                                    dignissimos, aspernatur quis culpa.
-                                    Laboriosam a natus eum voluptatibus
-                                    laudantium. Sunt unde esse dolor!
-                                </p>
-                            </div>
-                            <div css={s.boardBottomBox}>
+                        {boardList.map((board) => (
+                            <li
+                                key={board.boardId}
+                                onClick={() =>
+                                    navigate(`/board/${board.boardId}`)
+                                }>
                                 <div>
-                                    <div>김</div>
-                                    <p>김개발</p>
+                                    <h4>{board.title}</h4>
+                                    <p>{board.content}</p>
                                 </div>
-                                <div>
-                                    <p>2025.12.29</p>
+                                <div css={s.boardBottomBox}>
+                                    <div>
+                                        <div css={s.profileImgBox}>
+                                            <img
+                                                src={board.profileImg}
+                                                alt="profileImg"
+                                            />
+                                        </div>
+                                        <p>{board.username}</p>
+                                    </div>
+                                    <div>
+                                        <p>{board.createDt}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <h4>React 18의 새로운 기능들</h4>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipisicing elit. Quisquam porro expedita
-                                    nisi eveniet quam exercitationem velit
-                                    dignissimos, aspernatur quis culpa.
-                                    Laboriosam a natus eum voluptatibus
-                                    laudantium. Sunt unde esse dolor!
-                                </p>
-                            </div>
-                            <div css={s.boardBottomBox}>
-                                <div>
-                                    <div>김</div>
-                                    <p>김개발</p>
-                                </div>
-                                <div>
-                                    <p>2025.12.29</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <h4>React 18의 새로운 기능들</h4>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipisicing elit. Quisquam porro expedita
-                                    nisi eveniet quam exercitationem velit
-                                    dignissimos, aspernatur quis culpa.
-                                    Laboriosam a natus eum voluptatibus
-                                    laudantium. Sunt unde esse dolor!
-                                </p>
-                            </div>
-                            <div css={s.boardBottomBox}>
-                                <div>
-                                    <div>김</div>
-                                    <p>김개발</p>
-                                </div>
-                                <div>
-                                    <p>2025.12.29</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <h4>React 18의 새로운 기능들</h4>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipisicing elit. Quisquam porro expedita
-                                    nisi eveniet quam exercitationem velit
-                                    dignissimos, aspernatur quis culpa.
-                                    Laboriosam a natus eum voluptatibus
-                                    laudantium. Sunt unde esse dolor!
-                                </p>
-                            </div>
-                            <div css={s.boardBottomBox}>
-                                <div>
-                                    <div>김</div>
-                                    <p>김개발</p>
-                                </div>
-                                <div>
-                                    <p>2025.12.29</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <h4>React 18의 새로운 기능들</h4>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipisicing elit. Quisquam porro expedita
-                                    nisi eveniet quam exercitationem velit
-                                    dignissimos, aspernatur quis culpa.
-                                    Laboriosam a natus eum voluptatibus
-                                    laudantium. Sunt unde esse dolor!
-                                </p>
-                            </div>
-                            <div css={s.boardBottomBox}>
-                                <div>
-                                    <div>김</div>
-                                    <p>김개발</p>
-                                </div>
-                                <div>
-                                    <p>2025.12.29</p>
-                                </div>
-                            </div>
-                        </li>
+                            </li>
+                        ))}
                     </ul>
                     <div></div>
                 </div>

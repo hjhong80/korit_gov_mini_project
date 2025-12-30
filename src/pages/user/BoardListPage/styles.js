@@ -6,12 +6,6 @@ export const container = css`
     height: 100%;
     justify-content: center;
     align-items: center;
-    overflow: auto;
-    -ms-overflow-style: none;
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
 `;
 
 export const mainContainer = css`
@@ -135,19 +129,25 @@ export const boardBottomBox = css`
         align-items: center;
         gap: 10px;
 
-        & > div {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: aquamarine;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
         & > p {
             font-size: 14px;
             color: #0a0a0a;
         }
+    }
+`;
+
+export const profileImgBox = css`
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    /* background-color: aquamarine; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 `;

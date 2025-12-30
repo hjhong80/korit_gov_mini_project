@@ -10,12 +10,15 @@ import { useQuery } from '@tanstack/react-query';
 import { getPrincipal } from '../apis/auth/authApis';
 import { useEffect } from 'react';
 import { usePrincipalState } from '../store/usePrincipalState';
+import AccountRouter from './AccountRouter';
+import ProtectedRouter from './ProtectedRouter';
 
 function MainRouter() {
     const AccessToken = localStorage.getItem('AccessToken');
-    const [showSideBar, setShowSideBar] = useState(false);
-    const { isLoggedIn, principal, login, logout } = usePrincipalState();
-    const { data, isLoading } = useQuery({
+
+    const { isLoggedIn, principal, loading, login, logout, setLoading } =
+        usePrincipalState();
+    const { data, isLoading, refetch } = useQuery({
         queryKey: ['getPrincipal'],
         queryFn: getPrincipal,
         refetch: 1,
@@ -28,30 +31,39 @@ function MainRouter() {
         }
     }, [data, login]);
 
+    useEffect(() => {
+        setLoading(isLoading);
+    }, [isLoading]);
+
     return (
         <>
             <Routes>
                 <Route
                     path="/"
                     element={
-                        <Layout
-                            showSideBar={showSideBar}
-                            setShowSideBar={setShowSideBar}>
-                            <MainPage
-                                showSideBar={showSideBar}
-                                setShowSideBar={setShowSideBar}
-                            />
+                        <Layout>
+                            <MainPage />
                         </Layout>
                     }
                 />
                 <Route
                     path="/board/*"
                     element={
-                        <Layout
-                            showSideBar={showSideBar}
-                            setShowSideBar={setShowSideBar}>
-                            <BoardRouter />
-                        </Layout>
+                        <ProtectedRouter>
+                            <Layout>
+                                <BoardRouter />
+                            </Layout>
+                        </ProtectedRouter>
+                    }
+                />
+                <Route
+                    path="/profile/*"
+                    element={
+                        <ProtectedRouter>
+                            <Layout>
+                                <AccountRouter />
+                            </Layout>
+                        </ProtectedRouter>
                     }
                 />
                 <Route path="/auth/*" element={<AuthRouter />} />

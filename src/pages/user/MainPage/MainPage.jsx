@@ -7,11 +7,11 @@ import { GoPeople } from 'react-icons/go';
 import { PiLightning } from 'react-icons/pi';
 import { FiUser, FiUsers, FiZap } from 'react-icons/fi';
 
-function MainPage({ showSideBar, setShowSideBar }) {
+function MainPage() {
     return (
         <div
-            css={s.container(showSideBar)}
-            onClick={() => setShowSideBar((prev) => (prev ? !prev : prev))}>
+            css={s.container}
+            >
             <div css={s.mainContainer}>
                 <div css={s.topBox}>
                     <h1>
