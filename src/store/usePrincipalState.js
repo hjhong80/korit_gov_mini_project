@@ -4,7 +4,7 @@ export const usePrincipalState = create((set, get) => ({
     isLoggedIn: false,
     principal: null,
     loading: true,
-    login: (data) => set({ isLoggedIn: true, principal: data }),
+    login: (userData) => set({ isLoggedIn: true, principal: userData }),
     logout: () => {
         localStorage.removeItem('AccessToken');
         set({ isLoggedIn: false, principal: null });

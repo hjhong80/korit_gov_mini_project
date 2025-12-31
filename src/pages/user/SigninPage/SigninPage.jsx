@@ -28,6 +28,12 @@ function SigninPage() {
         });
     };
 
+    const onKeyDownHandler = (e) => {
+        if (e.key === 'Enter') {
+            signinOnClickHandler();
+        }
+    };
+
     const signinOnClickHandler = () => {
         if (
             signinInputValue.email.trim().length === 0 ||
@@ -75,6 +81,7 @@ function SigninPage() {
                                     type="email"
                                     onChange={inputOnChangeHandler}
                                     value={signinInputValue.email}
+                                    onKeyDown={onKeyDownHandler}
                                     placeholder="이메일을 입력해주세요."
                                 />
                             </div>
@@ -86,6 +93,7 @@ function SigninPage() {
                                     type="password"
                                     onChange={inputOnChangeHandler}
                                     value={signinInputValue.password}
+                                    onKeyDown={onKeyDownHandler}
                                     placeholder="비밀번호를 입력해주세요."
                                 />
                             </div>
