@@ -1,13 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as s from './styles';
 
 import React, { useState } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import { signupRequest } from '../../../apis/auth/authApis';
+import { oAuth2SignupRequest } from '../../../apis/auth/oAuth2Apis';
 
-function SignupPage() {
+function OAuth2SignupPage() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [signupInputValue, setSignupInputValue] = useState({
         username: '',
         email: '',
@@ -62,10 +64,12 @@ function SignupPage() {
             return;
         }
 
-        signupRequest({
+        oAuth2SignupRequest({
             username: signupInputValue.username,
             email: signupInputValue.email,
             password: signupInputValue.password,
+            provider: location.state.provider,
+            providerUserId: location.state.provider,
         })
             .then((response) => {
                 if (response.data.status == 'success') {
@@ -151,4 +155,4 @@ function SignupPage() {
     );
 }
 
-export default SignupPage;
+export default OAuth2SignupPage;

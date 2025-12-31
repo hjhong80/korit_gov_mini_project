@@ -123,10 +123,91 @@ export const profileBoardBox = css`
 
 export const boardBox = css`
     width: 100%;
-    height: 200px;
+    height: 600px;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: auto;
+    padding: 20px;
+    box-sizing: border-box;
+
+    & > ul {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+
+        & > li {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 24px;
+            box-sizing: border-box;
+            border-radius: 14px;
+            box-shadow: 3px 10px 15px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.15s ease;
+            cursor: pointer;
+
+            &:hover {
+                box-shadow: 3px 20px 15px 3px rgba(0, 0, 0, 0.1);
+            }
+
+            & > div:nth-of-type(1) {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                & > h4 {
+                    font-size: 20px;
+                    font-weight: 600;
+                    color: #0a0a0a;
+                    text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+                }
+
+                & > p {
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: #717182;
+                }
+            }
+        }
+    }
+`;
+
+export const boardBottomBox = css`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & > div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        & > p {
+            font-size: 14px;
+            color: #0a0a0a;
+        }
+    }
+`;
+
+export const profileImgBox = css`
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    /* background-color: aquamarine; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    & > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 `;
 
 export const blurBox = css`

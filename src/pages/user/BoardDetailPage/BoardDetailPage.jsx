@@ -36,11 +36,16 @@ function BoardDetailPage() {
                         <h4>{boardData.title}</h4>
                         <div css={s.boardBottomBox}>
                             <div>
-                                <div css={s.profileImgBox}><img src={boardData.profileImg} alt="" /></div>
+                                <div css={s.profileImgBox}>
+                                    <img src={boardData.profileImg} alt="" />
+                                </div>
                                 <p>{boardData.username}</p>
                             </div>
                             <div>
-                                <p>{boardData.createDt}</p>
+                                <p>작성일: {boardData.createDt}</p>
+                                {boardData.updateDt && (
+                                    <p>수정일: {boardData.updateDt}</p>
+                                )}
                             </div>
                         </div>
                     </div>
