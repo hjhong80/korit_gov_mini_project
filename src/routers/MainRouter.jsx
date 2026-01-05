@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { usePrincipalState } from '../store/usePrincipalState';
 import AccountRouter from './AccountRouter';
 import ProtectedRouter from './ProtectedRouter';
+import AdminRouter from './AdminRouter';
 
 function MainRouter() {
     const AccessToken = localStorage.getItem('AccessToken');
@@ -67,6 +68,7 @@ function MainRouter() {
                     }
                 />
                 <Route path="/auth/*" element={<AuthRouter />} />
+                <Route path="/admin/*" element={<AdminRouter />} />
             </Routes>
         </>
     );

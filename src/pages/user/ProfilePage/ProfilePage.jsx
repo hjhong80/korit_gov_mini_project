@@ -15,8 +15,10 @@ import {
 } from '../../../apis/account/accountApis';
 import { getBoardListByUserIdRequest } from '../../../apis/board/boardApis';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { ScaleLoader } from 'react-spinners';
 
 function ProfilePage() {
+    const [isSending, setIsSending] = useState(false);
     const [progress, setProgress] = useState(0);
     const [isUploading, setIsUploading] = useState(false);
     const [previewUrl, setPreviewUrl] = useState(null);
@@ -130,12 +132,15 @@ function ProfilePage() {
         if (!confirm('이메일 인증 코드를 전송하시겠습니까?')) {
             return;
         }
+        setIsSending(true);
 
         emailSendRequest().then((response) => {
             if (response.data.status === 'success') {
+                setIsSending(false);
                 alert(response.data.message);
                 return;
             } else if (response.data.status === 'failed') {
+                setIsSending(false);
                 alert(response.data.message);
                 return;
             }
@@ -193,7 +198,12 @@ function ProfilePage() {
                             <button onClick={() => logout()}>로그아웃</button>
                             {principalData?.authorities[0].authority ===
                             'ROLE_ADMIN' ? (
-                                <button>관리자 대시보드</button>
+                                <button
+                                    onClick={() =>
+                                        navigate('/admin/dashboard')
+                                    }>
+                                    관리자 대시보드
+                                </button>
                             ) : (
                                 <></>
                             )}
@@ -280,6 +290,13 @@ function ProfilePage() {
                 <div css={s.blurBox}>
                     <h4>{progress}%</h4>
                 </div>
+            )}
+            {isSending ? (
+                <div css={s.spinnerBox}>
+                    <ScaleLoader height={50} color="#4f39f6" />
+                </div>
+            ) : (
+                <></>
             )}
         </div>
     );
