@@ -37,6 +37,26 @@ export const getBoardListRequest = async () => {
     }
 };
 
+export const getBoardInfiniteRequest = async ({ pageParam }) => {
+    const LIMIT = 10;
+    const params = { limit: LIMIT };
+
+    if (pageParam) {
+        if (pageParam.cursorCreateDt && pageParam.cursorBoardId) {
+             params.cursorCreateDt = pageParam.cursorCreateDt;
+             params.cursorBoardId = pageParam.cursorBoardId;
+        }
+    }
+
+    try {
+        const response = await instance.get('/board/list/infinite', { params });
+        return response;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
 export const getBoardByBoardIdRequest = async (boardId) => {
     instance.interceptors.request.use((config) => {
         const accessToken = localStorage.getItem('AccessToken');
